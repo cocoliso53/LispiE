@@ -1,50 +1,37 @@
 grammar lispie;
 
-// Parser rules
-program : sexpr+ EOF;
+program: sexpr* EOF;
 
 sexpr
-    : '(' (defvar | defconst | let | defun | logical_op | ifExpr | map | filter | event | emit | forLoop | whileLoop | definterface | function_call) ')'
-    ;
+  : '(' (operator | keyword) args ')' #sexprOp
+  | atom                              #sexprAtom
+  ;
 
-defvar : 'defvar' IDENTIFIER type ;
-defconst : 'defconst' IDENTIFIER expression ;
-let : 'let' '(' IDENTIFIER type expression ')' expression ;
-defun : 'defun' ':' visibility IDENTIFIER '(' (IDENTIFIER type)* ')' '->' type expression ;
+operator: OP;
+keyword: KEYWORD;
 
-logical_op : and | or | not ;
-and : 'and' expression expression ;
-or : 'or' expression expression ;
-not : 'not' expression ;
+args: (atom | sexpr)*;
 
-ifExpr : 'if' expression expression expression ;
+atom
+  : INT
+  | FLOAT
+  | STRING
+  | IDENTIFIER
+  | TYPE
+  | self
+  ;
 
-map : 'map' sexpr expression ;
-filter : 'filter' sexpr expression ;
+self: 'self';
 
-event : 'event' IDENTIFIER '(' (IDENTIFIER type)* ')';
-emit : 'emit' IDENTIFIER (expression)* ;
+OP: ('+' | '-' | '*' | '/' | '<' | '>' | '=' | 'and' | 'or' | 'not' | 'if' | 'let' | 'defun' | 'defvar' | 'defconst' | 'definterface' | 'function' | 'event' | 'emit' | 'map' | 'filter' | 'for' | 'while' | ':' KEYWORD);
 
-forLoop : 'for' '(' IDENTIFIER type expression ')' expression expression expression ;
-whileLoop : 'while' expression expression ;
+KEYWORD: ('external' | 'internal' | 'payable');
 
-definterface : 'definterface' IDENTIFIER (function_signature)*;
-function_signature : 'function' IDENTIFIER '(' (IDENTIFIER type)* ')' '->' type ;
+INT: [0-9]+;
+FLOAT: [0-9]+ '.' [0-9]+;
+STRING: '"' (~["\n\r\t])* '"';
+IDENTIFIER: [a-zA-Z_$][a-zA-Z_$0-9]*;
+TYPE: ('uint256' | 'int256' | 'address' | 'bool' | 'bytes32' | 'string');
+COMMENT: ';;' .*? '\n' -> skip;
 
-function_call : IDENTIFIER (expression)* ;
-
-type : 'uint256' | 'int256' | 'address' | 'bool' | 'bytes32' | 'string';
-visibility : 'external' | 'internal' | 'payable';
-
-expression
-    : sexpr
-    | IDENTIFIER
-    | NUMBER
-    | STRING
-    ;
-
-// Lexer rules
-IDENTIFIER : [a-zA-Z_] [a-zA-Z0-9_]*;
-NUMBER : [0-9]+ ('.' [0-9]+)?;
-STRING : '"' (~["\r\n])* '"';
-WHITESPACE : [ \t\r\n]+ -> skip;
+WS: [ \t\r\n]+ -> skip;
