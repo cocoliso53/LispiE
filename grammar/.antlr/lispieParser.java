@@ -16,28 +16,29 @@ public class lispieParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, OP=4, KEYWORD=5, INT=6, FLOAT=7, STRING=8, IDENTIFIER=9, 
-		TYPE=10, COMMENT=11, WS=12;
+		T__0=1, T__1=2, T__2=3, T__3=4, OP=5, KEYWORD=6, INT=7, ID=8, FLOAT=9, 
+		STRING=10, IDENTIFIER=11, TYPE=12, COMMENT=13, WS=14;
 	public static final int
-		RULE_program = 0, RULE_sexpr = 1, RULE_operator = 2, RULE_keyword = 3, 
-		RULE_args = 4, RULE_atom = 5, RULE_self = 6;
+		RULE_program = 0, RULE_contractName = 1, RULE_sexpr = 2, RULE_operator = 3, 
+		RULE_keyword = 4, RULE_args = 5, RULE_atom = 6, RULE_self = 7;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"program", "sexpr", "operator", "keyword", "args", "atom", "self"
+			"program", "contractName", "sexpr", "operator", "keyword", "args", "atom", 
+			"self"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'('", "')'", "'self'"
+			null, "'#'", "'('", "')'", "'self'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, "OP", "KEYWORD", "INT", "FLOAT", "STRING", "IDENTIFIER", 
-			"TYPE", "COMMENT", "WS"
+			null, null, null, null, null, "OP", "KEYWORD", "INT", "ID", "FLOAT", 
+			"STRING", "IDENTIFIER", "TYPE", "COMMENT", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -92,6 +93,9 @@ public class lispieParser extends Parser {
 	}
 
 	public static class ProgramContext extends ParserRuleContext {
+		public ContractNameContext contractName() {
+			return getRuleContext(ContractNameContext.class,0);
+		}
 		public TerminalNode EOF() { return getToken(lispieParser.EOF, 0); }
 		public List<SexprContext> sexpr() {
 			return getRuleContexts(SexprContext.class);
@@ -112,22 +116,55 @@ public class lispieParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(17);
+			setState(16);
+			contractName();
+			setState(20);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__2) | (1L << INT) | (1L << FLOAT) | (1L << STRING) | (1L << IDENTIFIER) | (1L << TYPE))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__3) | (1L << INT) | (1L << ID) | (1L << FLOAT) | (1L << STRING) | (1L << IDENTIFIER) | (1L << TYPE))) != 0)) {
 				{
 				{
-				setState(14);
+				setState(17);
 				sexpr();
 				}
 				}
-				setState(19);
+				setState(22);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(20);
+			setState(23);
 			match(EOF);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ContractNameContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(lispieParser.ID, 0); }
+		public ContractNameContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_contractName; }
+	}
+
+	public final ContractNameContext contractName() throws RecognitionException {
+		ContractNameContext _localctx = new ContractNameContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_contractName);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(25);
+			match(T__0);
+			setState(26);
+			match(ID);
 			}
 		}
 		catch (RecognitionException re) {
@@ -173,43 +210,44 @@ public class lispieParser extends Parser {
 
 	public final SexprContext sexpr() throws RecognitionException {
 		SexprContext _localctx = new SexprContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_sexpr);
+		enterRule(_localctx, 4, RULE_sexpr);
 		try {
-			setState(31);
+			setState(37);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__0:
+			case T__1:
 				_localctx = new SexprOpContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(22);
-				match(T__0);
-				setState(25);
+				setState(28);
+				match(T__1);
+				setState(31);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case OP:
 					{
-					setState(23);
+					setState(29);
 					operator();
 					}
 					break;
 				case KEYWORD:
 					{
-					setState(24);
+					setState(30);
 					keyword();
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(27);
+				setState(33);
 				args();
-				setState(28);
-				match(T__1);
+				setState(34);
+				match(T__2);
 				}
 				break;
-			case T__2:
+			case T__3:
 			case INT:
+			case ID:
 			case FLOAT:
 			case STRING:
 			case IDENTIFIER:
@@ -217,7 +255,7 @@ public class lispieParser extends Parser {
 				_localctx = new SexprAtomContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(30);
+				setState(36);
 				atom();
 				}
 				break;
@@ -246,11 +284,11 @@ public class lispieParser extends Parser {
 
 	public final OperatorContext operator() throws RecognitionException {
 		OperatorContext _localctx = new OperatorContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_operator);
+		enterRule(_localctx, 6, RULE_operator);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(33);
+			setState(39);
 			match(OP);
 			}
 		}
@@ -275,11 +313,11 @@ public class lispieParser extends Parser {
 
 	public final KeywordContext keyword() throws RecognitionException {
 		KeywordContext _localctx = new KeywordContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_keyword);
+		enterRule(_localctx, 8, RULE_keyword);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(35);
+			setState(41);
 			match(KEYWORD);
 			}
 		}
@@ -315,34 +353,34 @@ public class lispieParser extends Parser {
 
 	public final ArgsContext args() throws RecognitionException {
 		ArgsContext _localctx = new ArgsContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_args);
+		enterRule(_localctx, 10, RULE_args);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(41);
+			setState(47);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__2) | (1L << INT) | (1L << FLOAT) | (1L << STRING) | (1L << IDENTIFIER) | (1L << TYPE))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__3) | (1L << INT) | (1L << ID) | (1L << FLOAT) | (1L << STRING) | (1L << IDENTIFIER) | (1L << TYPE))) != 0)) {
 				{
-				setState(39);
+				setState(45);
 				_errHandler.sync(this);
 				switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 				case 1:
 					{
-					setState(37);
+					setState(43);
 					atom();
 					}
 					break;
 				case 2:
 					{
-					setState(38);
+					setState(44);
 					sexpr();
 					}
 					break;
 				}
 				}
-				setState(43);
+				setState(49);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -365,6 +403,7 @@ public class lispieParser extends Parser {
 		public TerminalNode STRING() { return getToken(lispieParser.STRING, 0); }
 		public TerminalNode IDENTIFIER() { return getToken(lispieParser.IDENTIFIER, 0); }
 		public TerminalNode TYPE() { return getToken(lispieParser.TYPE, 0); }
+		public TerminalNode ID() { return getToken(lispieParser.ID, 0); }
 		public SelfContext self() {
 			return getRuleContext(SelfContext.class,0);
 		}
@@ -376,50 +415,57 @@ public class lispieParser extends Parser {
 
 	public final AtomContext atom() throws RecognitionException {
 		AtomContext _localctx = new AtomContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_atom);
+		enterRule(_localctx, 12, RULE_atom);
 		try {
-			setState(50);
+			setState(57);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case INT:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(44);
+				setState(50);
 				match(INT);
 				}
 				break;
 			case FLOAT:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(45);
+				setState(51);
 				match(FLOAT);
 				}
 				break;
 			case STRING:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(46);
+				setState(52);
 				match(STRING);
 				}
 				break;
 			case IDENTIFIER:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(47);
+				setState(53);
 				match(IDENTIFIER);
 				}
 				break;
 			case TYPE:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(48);
+				setState(54);
 				match(TYPE);
 				}
 				break;
-			case T__2:
+			case ID:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(49);
+				setState(55);
+				match(ID);
+				}
+				break;
+			case T__3:
+				enterOuterAlt(_localctx, 7);
+				{
+				setState(56);
 				self();
 				}
 				break;
@@ -447,12 +493,12 @@ public class lispieParser extends Parser {
 
 	public final SelfContext self() throws RecognitionException {
 		SelfContext _localctx = new SelfContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_self);
+		enterRule(_localctx, 14, RULE_self);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(52);
-			match(T__2);
+			setState(59);
+			match(T__3);
 			}
 		}
 		catch (RecognitionException re) {
@@ -467,22 +513,23 @@ public class lispieParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\169\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\3\2\7\2\22\n\2\f\2\16\2\25"+
-		"\13\2\3\2\3\2\3\3\3\3\3\3\5\3\34\n\3\3\3\3\3\3\3\3\3\5\3\"\n\3\3\4\3\4"+
-		"\3\5\3\5\3\6\3\6\7\6*\n\6\f\6\16\6-\13\6\3\7\3\7\3\7\3\7\3\7\3\7\5\7\65"+
-		"\n\7\3\b\3\b\3\b\2\2\t\2\4\6\b\n\f\16\2\2\2;\2\23\3\2\2\2\4!\3\2\2\2\6"+
-		"#\3\2\2\2\b%\3\2\2\2\n+\3\2\2\2\f\64\3\2\2\2\16\66\3\2\2\2\20\22\5\4\3"+
-		"\2\21\20\3\2\2\2\22\25\3\2\2\2\23\21\3\2\2\2\23\24\3\2\2\2\24\26\3\2\2"+
-		"\2\25\23\3\2\2\2\26\27\7\2\2\3\27\3\3\2\2\2\30\33\7\3\2\2\31\34\5\6\4"+
-		"\2\32\34\5\b\5\2\33\31\3\2\2\2\33\32\3\2\2\2\34\35\3\2\2\2\35\36\5\n\6"+
-		"\2\36\37\7\4\2\2\37\"\3\2\2\2 \"\5\f\7\2!\30\3\2\2\2! \3\2\2\2\"\5\3\2"+
-		"\2\2#$\7\6\2\2$\7\3\2\2\2%&\7\7\2\2&\t\3\2\2\2\'*\5\f\7\2(*\5\4\3\2)\'"+
-		"\3\2\2\2)(\3\2\2\2*-\3\2\2\2+)\3\2\2\2+,\3\2\2\2,\13\3\2\2\2-+\3\2\2\2"+
-		".\65\7\b\2\2/\65\7\t\2\2\60\65\7\n\2\2\61\65\7\13\2\2\62\65\7\f\2\2\63"+
-		"\65\5\16\b\2\64.\3\2\2\2\64/\3\2\2\2\64\60\3\2\2\2\64\61\3\2\2\2\64\62"+
-		"\3\2\2\2\64\63\3\2\2\2\65\r\3\2\2\2\66\67\7\5\2\2\67\17\3\2\2\2\b\23\33"+
-		"!)+\64";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\20@\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\3\2\7\2\25\n\2"+
+		"\f\2\16\2\30\13\2\3\2\3\2\3\3\3\3\3\3\3\4\3\4\3\4\5\4\"\n\4\3\4\3\4\3"+
+		"\4\3\4\5\4(\n\4\3\5\3\5\3\6\3\6\3\7\3\7\7\7\60\n\7\f\7\16\7\63\13\7\3"+
+		"\b\3\b\3\b\3\b\3\b\3\b\3\b\5\b<\n\b\3\t\3\t\3\t\2\2\n\2\4\6\b\n\f\16\20"+
+		"\2\2\2B\2\22\3\2\2\2\4\33\3\2\2\2\6\'\3\2\2\2\b)\3\2\2\2\n+\3\2\2\2\f"+
+		"\61\3\2\2\2\16;\3\2\2\2\20=\3\2\2\2\22\26\5\4\3\2\23\25\5\6\4\2\24\23"+
+		"\3\2\2\2\25\30\3\2\2\2\26\24\3\2\2\2\26\27\3\2\2\2\27\31\3\2\2\2\30\26"+
+		"\3\2\2\2\31\32\7\2\2\3\32\3\3\2\2\2\33\34\7\3\2\2\34\35\7\n\2\2\35\5\3"+
+		"\2\2\2\36!\7\4\2\2\37\"\5\b\5\2 \"\5\n\6\2!\37\3\2\2\2! \3\2\2\2\"#\3"+
+		"\2\2\2#$\5\f\7\2$%\7\5\2\2%(\3\2\2\2&(\5\16\b\2\'\36\3\2\2\2\'&\3\2\2"+
+		"\2(\7\3\2\2\2)*\7\7\2\2*\t\3\2\2\2+,\7\b\2\2,\13\3\2\2\2-\60\5\16\b\2"+
+		".\60\5\6\4\2/-\3\2\2\2/.\3\2\2\2\60\63\3\2\2\2\61/\3\2\2\2\61\62\3\2\2"+
+		"\2\62\r\3\2\2\2\63\61\3\2\2\2\64<\7\t\2\2\65<\7\13\2\2\66<\7\f\2\2\67"+
+		"<\7\r\2\28<\7\16\2\29<\7\n\2\2:<\5\20\t\2;\64\3\2\2\2;\65\3\2\2\2;\66"+
+		"\3\2\2\2;\67\3\2\2\2;8\3\2\2\2;9\3\2\2\2;:\3\2\2\2<\17\3\2\2\2=>\7\6\2"+
+		"\2>\21\3\2\2\2\b\26!\'/\61;";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
